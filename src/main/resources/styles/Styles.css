@@ -1,0 +1,12 @@
+.button {
+    -fx-font-weight: bold;
+}
+
+.root {
+    -fx-background: #36393E;
+    -fx-base: #7289DA;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: #FFFFFF;
+}

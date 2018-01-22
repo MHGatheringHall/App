@@ -1,0 +1,34 @@
+<!--
+  ~ Place this in the following directory and name it "logback.xml"
+  ~ For testing, you'll want to have a copy of this and name it "logback-test.xml"
+  ~ src
+  ~ - main
+  ~   - resources
+  ~     - logback.xml
+  ~ - test
+  ~   - resources
+  ~     - logback-test.xml
+  -->
+
+<!-- author: Kaidan Gustave -->
+<configuration>
+
+    <!-- ANSI color converter for logging. -->
+    <!-- If you decide to put the SimpleHL.java in a different package, you'll have to change this accordingly. -->
+    <conversionRule conversionWord="simpleHL"
+                    converterClass="com.jagrosh.mhghapp.logging.SimpleHL"/>
+
+    <appender name="Simple" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Pattern -->
+            <pattern>
+                %nopex[%d{HH:mm:ss}] [%level] [%logger{0}]: %msg%n%ex
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="Simple"/>
+    </root>
+
+</configuration>

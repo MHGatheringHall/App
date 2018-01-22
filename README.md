@@ -1,5 +1,5 @@
 # App
-Desktop App for integrations into the Monster Hunter Gathering Hall Discord server
+Desktop App for integrations into the Monster Hunter Gathering Hall Discord server (https://discord.gg/monsterhunter)
 
 # Notice
-The app is currently in private beta; source code will be available once the app is public
+The app is currently in beta
