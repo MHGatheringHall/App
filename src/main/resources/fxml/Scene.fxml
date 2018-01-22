@@ -1,207 +1,222 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.web.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.effect.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane id="AnchorPane" minHeight="350.0" minWidth="300.0" prefHeight="350.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jagrosh.mhghapp.FXMLController">
-   <children>
-      <TabPane layoutX="10.0" layoutY="10.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <tabs>
-            <Tab closable="false" text="Quest Board">
-               <content>
-                  <GridPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="87.0" />
-                      <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="192.0" prefWidth="193.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Game" />
-                        <Label text="Weapon" GridPane.rowIndex="1" />
-                        <Label text="Current Party" GridPane.rowIndex="2" />
-                        <Label text="Quest" GridPane.rowIndex="3" />
-                        <Label text="Hall ID" GridPane.rowIndex="4" />
-                        <Label text="Password" GridPane.rowIndex="5" />
-                        <ChoiceBox fx:id="gameChoice" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
-                           <padding>
-                              <Insets right="10.0" />
-                           </padding></ChoiceBox>
-                        <ChoiceBox fx:id="weaponChoice" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
-                           <padding>
-                              <Insets right="10.0" />
-                           </padding></ChoiceBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
-                           <children>
-                              <ToggleButton fx:id="partyBtn1" mnemonicParsing="false" text="1">
-                                 <HBox.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </HBox.margin>
-                              </ToggleButton>
-                              <ToggleButton fx:id="partyBtn2" mnemonicParsing="false" text="2">
-                                 <HBox.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </HBox.margin>
-                              </ToggleButton>
-                              <ToggleButton fx:id="partyBtn3" mnemonicParsing="false" text="3">
-                                 <HBox.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </HBox.margin>
-                              </ToggleButton>
-                              <ToggleButton fx:id="partyBtn4" mnemonicParsing="false" text="4">
-                                 <HBox.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </HBox.margin>
-                              </ToggleButton>
-                           </children>
-                        </HBox>
-                        <TextField fx:id="questField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="hallField" promptText="00-0000-0000-0000" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="passField" promptText="None" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Label fx:id="statusLbl" text="Loading..." GridPane.columnIndex="1" GridPane.rowIndex="7">
-                           <GridPane.margin>
-                              <Insets left="10.0" />
-                           </GridPane.margin>
-                        </Label>
-                        <Label text="Status" GridPane.rowIndex="6" />
-                        <ChoiceBox fx:id="statusChoice" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6">
-                           <padding>
-                              <Insets right="10.0" />
-                           </padding></ChoiceBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="7">
-                           <children>
-                              <Button fx:id="clearBtn" cancelButton="true" mnemonicParsing="false" onAction="#clearPresence" text="❌" textAlignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                                 <tooltip>
-                                    <Tooltip text="Clear quest" />
-                                 </tooltip>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#updatePresence" text="🔄" textAlignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </HBox.margin>
-                                 <tooltip>
-                                    <Tooltip text="Update quest" />
-                                 </tooltip>
-                              </Button>
-                           </children>
-                        </HBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </GridPane>
-               </content>
-            </Tab>
-            <Tab text="Settings">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <GridPane alignment="CENTER" layoutX="14.0" layoutY="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="135.0" minWidth="10.0" prefWidth="103.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="179.0" minWidth="10.0" prefWidth="177.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Label alignment="CENTER" text="Preferred Client" textAlignment="CENTER" />
-                              <Label text="Custom CSS" textAlignment="CENTER" GridPane.rowIndex="1" />
-                              <ChoiceBox fx:id="clientChoice" prefWidth="150.0" GridPane.columnIndex="1" />
-                              <TextField fx:id="cssField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#applySettings" text="✔" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-                           </children>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </GridPane>
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-            <Tab closable="false" text="About">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <VBox alignment="TOP_CENTER" layoutX="150.0" layoutY="121.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <Label alignment="TOP_CENTER" text="Monster Hunter Gathering Hall App" wrapText="true">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </Label>
-                              <Label text="The MHGH App is designed to be a companion to the Monster Hunter Gathering Hall Discord server. It utilizes a custom IPC library to communicate with the Discord client to set Rich Presences. These can be used for appearance or to post to the quest boards (with the assistance of Courier Felyne)." textAlignment="CENTER" wrapText="true">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </Label>
-                              <Label text="This app was designed and constructed by jagrosh#4824, and its source is available on GitHub under the Apache 2.0 License." textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </Label>
-                              <HBox alignment="CENTER">
-                                 <children>
-                                    <Hyperlink fx:id="discordLink" text="Discord" />
-                                    <Hyperlink fx:id="githubLink" text="GitHub" />
-                                    <Hyperlink fx:id="twitterLink" text="Twitter" />
-                                    <Hyperlink fx:id="websiteLink" text="Website" />
-                                    <Hyperlink fx:id="steamLink" text="Steam" />
-                                 </children>
-                              </HBox>
-                              <Label contentDisplay="CENTER" text="Version 0.05" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </Label>
-                           </children>
-                           <opaqueInsets>
-                              <Insets bottom="10.0" top="10.0" />
-                           </opaqueInsets>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-            <Tab text="Console">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TextArea fx:id="console" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" wrapText="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-         </tabs>
-      </TabPane>
-   </children>
+<?import javafx.scene.text.Font?>
+<AnchorPane id="AnchorPane" minHeight="350.0" minWidth="300.0" prefHeight="350.0" prefWidth="300.0"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.jagrosh.mhghapp.FXMLController">
+  <children>
+    <TabPane layoutX="10.0" layoutY="10.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <tabs>
+        <Tab closable="false" text="Quest Board">
+          <content>
+            <GridPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"
+                      AnchorPane.topAnchor="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="87.0"/>
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="192.0" prefWidth="193.0"/>
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+              </rowConstraints>
+              <children>
+                <Label text="Game"/>
+                <Label text="Weapon" GridPane.rowIndex="1"/>
+                <Label text="Current Party" GridPane.rowIndex="2"/>
+                <Label text="Quest" GridPane.rowIndex="3"/>
+                <Label text="Hall ID" GridPane.rowIndex="4"/>
+                <Label text="Password" GridPane.rowIndex="5"/>
+                <ChoiceBox fx:id="gameChoice" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+                  <padding>
+                    <Insets right="10.0"/>
+                  </padding>
+                </ChoiceBox>
+                <ChoiceBox fx:id="weaponChoice" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                  <padding>
+                    <Insets right="10.0"/>
+                  </padding>
+                </ChoiceBox>
+                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                      GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                  <children>
+                    <ToggleButton fx:id="partyBtn1" mnemonicParsing="false" text="1">
+                      <HBox.margin>
+                        <Insets left="5.0" right="5.0"/>
+                      </HBox.margin>
+                    </ToggleButton>
+                    <ToggleButton fx:id="partyBtn2" mnemonicParsing="false" text="2">
+                      <HBox.margin>
+                        <Insets left="5.0" right="5.0"/>
+                      </HBox.margin>
+                    </ToggleButton>
+                    <ToggleButton fx:id="partyBtn3" mnemonicParsing="false" text="3">
+                      <HBox.margin>
+                        <Insets left="5.0" right="5.0"/>
+                      </HBox.margin>
+                    </ToggleButton>
+                    <ToggleButton fx:id="partyBtn4" mnemonicParsing="false" text="4">
+                      <HBox.margin>
+                        <Insets left="5.0" right="5.0"/>
+                      </HBox.margin>
+                    </ToggleButton>
+                  </children>
+                </HBox>
+                <TextField fx:id="questField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                <TextField fx:id="hallField" promptText="00-0000-0000-0000" GridPane.columnIndex="1"
+                           GridPane.rowIndex="4"/>
+                <TextField fx:id="passField" promptText="None" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                <Label fx:id="statusLbl" text="Loading..." GridPane.columnIndex="1" GridPane.rowIndex="7">
+                  <GridPane.margin>
+                    <Insets left="10.0"/>
+                  </GridPane.margin>
+                </Label>
+                <Label text="Status" GridPane.rowIndex="6"/>
+                <ChoiceBox fx:id="statusChoice" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6">
+                  <padding>
+                    <Insets right="10.0"/>
+                  </padding>
+                </ChoiceBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="7">
+                  <children>
+                    <Button fx:id="clearBtn" cancelButton="true" mnemonicParsing="false" onAction="#clearPresence"
+                            text="❌" textAlignment="CENTER">
+                      <HBox.margin>
+                        <Insets right="5.0"/>
+                      </HBox.margin>
+                      <tooltip>
+                        <Tooltip text="Clear quest"/>
+                      </tooltip>
+                    </Button>
+                    <Button mnemonicParsing="false" onAction="#updatePresence" text="🔄" textAlignment="CENTER">
+                      <HBox.margin>
+                        <Insets left="5.0" right="5.0"/>
+                      </HBox.margin>
+                      <tooltip>
+                        <Tooltip text="Update quest"/>
+                      </tooltip>
+                    </Button>
+                  </children>
+                </HBox>
+              </children>
+              <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+              </padding>
+            </GridPane>
+          </content>
+        </Tab>
+        <Tab text="Settings">
+          <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <GridPane alignment="CENTER" layoutX="14.0" layoutY="14.0" AnchorPane.bottomAnchor="0.0"
+                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="135.0" minWidth="10.0" prefWidth="103.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="179.0" minWidth="10.0" prefWidth="177.0"/>
+                  </columnConstraints>
+                  <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                  </rowConstraints>
+                  <children>
+                    <Label alignment="CENTER" text="Preferred Client" textAlignment="CENTER"/>
+                    <Label text="Custom CSS" textAlignment="CENTER" GridPane.rowIndex="1"/>
+                    <ChoiceBox fx:id="clientChoice" prefWidth="150.0" GridPane.columnIndex="1"/>
+                    <TextField fx:id="cssField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#applySettings" text="✔"
+                            textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="7"
+                            GridPane.valignment="CENTER"/>
+                  </children>
+                  <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                  </padding>
+                </GridPane>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab closable="false" text="About">
+          <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <VBox alignment="TOP_CENTER" layoutX="150.0" layoutY="121.0" prefHeight="200.0" prefWidth="100.0"
+                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                      AnchorPane.topAnchor="0.0">
+                  <children>
+                    <Label alignment="TOP_CENTER" text="Monster Hunter Gathering Hall App" wrapText="true">
+                      <font>
+                        <Font name="System Bold" size="14.0"/>
+                      </font>
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                      </padding>
+                    </Label>
+                    <Label
+                        text="The MHGH App is designed to be a companion to the Monster Hunter Gathering Hall Discord server. It utilizes a custom IPC library to communicate with the Discord client to set Rich Presences. These can be used for appearance or to post to the quest boards (with the assistance of Courier Felyne)."
+                        textAlignment="CENTER" wrapText="true">
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                      </padding>
+                    </Label>
+                    <Label
+                        text="This app was designed and constructed by jagrosh#4824, and its source is available on GitHub under the Apache 2.0 License."
+                        textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                      </padding>
+                    </Label>
+                    <HBox alignment="CENTER">
+                      <children>
+                        <Hyperlink fx:id="discordLink" text="Discord"/>
+                        <Hyperlink fx:id="githubLink" text="GitHub"/>
+                        <Hyperlink fx:id="twitterLink" text="Twitter"/>
+                        <Hyperlink fx:id="websiteLink" text="Website"/>
+                        <Hyperlink fx:id="steamLink" text="Steam"/>
+                      </children>
+                    </HBox>
+                    <Label contentDisplay="CENTER" text="Version 0.05" textAlignment="CENTER" wrapText="true"
+                           VBox.vgrow="ALWAYS">
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                      </padding>
+                    </Label>
+                  </children>
+                  <opaqueInsets>
+                    <Insets bottom="10.0" top="10.0"/>
+                  </opaqueInsets>
+                </VBox>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="Console">
+          <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <TextArea fx:id="console" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="200.0"
+                          prefWidth="200.0" wrapText="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0"
+                          AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0"/>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </children>
 </AnchorPane>

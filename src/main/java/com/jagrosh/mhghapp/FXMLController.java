@@ -35,8 +35,12 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URL;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Transition;
@@ -64,6 +68,12 @@ public class FXMLController implements Initializable
 {
     private static final Logger STLOG = LoggerFactory.getLogger("Status");
     private static final Logger LOGGER = LoggerFactory.getLogger("App");
+
+    private static final String DISCORD = "https://discord.gg/MonsterHunter";
+    private static final String TWITTER = "https://twitter.com/MHGatheringHall";
+    private static final String GITHUB = "https://github.com/MHGatheringHall/App";
+    private static final String WEBSITE = "https://mhgh.info";
+
     private IPCClient client;
     private HostServices hostServices;
     private Scene scene;
@@ -72,16 +82,16 @@ public class FXMLController implements Initializable
     @FXML private ToggleButton partyBtn2;
     @FXML private ToggleButton partyBtn3;
     @FXML private ToggleButton partyBtn4;
-    @FXML private Button clrBtn;
+    @FXML private Button clearBtn;
     @FXML private Button updateBtn;
     @FXML private TextField hallField;
     @FXML private TextField passField;
     @FXML private TextField questField;
-    @FXML private ChoiceBox gameChoice;
-    @FXML private ChoiceBox weaponChoice;
-    @FXML private ChoiceBox statusChoice;
+    @FXML private ChoiceBox<MHGame> gameChoice;
+    @FXML private ChoiceBox<Weapon> weaponChoice;
+    @FXML private ChoiceBox<Activity> statusChoice;
     
-    @FXML private ChoiceBox clientChoice;
+    @FXML private ChoiceBox<DiscordBuild> clientChoice;
     @FXML private TextField cssField;
     
     @FXML private Hyperlink discordLink;
@@ -100,11 +110,11 @@ public class FXMLController implements Initializable
             setStatus("Not connected! Trying to connect...");
             connect();
         }
-        else if(gameChoice.getValue()==null)
+        else if(gameChoice.getValue() == null)
             setStatus("Must select a game!");
         //else if(weaponChoice.getValue()==null)
             //setStatus("Must select a weapon!");
-        else if(!hallField.getText().matches("\\d{2}-\\d{4}-\\d{4}-\\d{4}"))
+        else if(!gameChoice.getValue().getHallIdPattern().matcher(hallField.getText()).matches())
             setStatus("Invalid Hall ID!");
         else if(!passField.getText().matches("\\d{4}") && !passField.getText().equalsIgnoreCase("none") && !passField.getText().isEmpty())
             setStatus("Password 4 digits or empty!");
@@ -116,11 +126,11 @@ public class FXMLController implements Initializable
             setStatus("Must set a status!");
         else
         {
-            MHGame g = (MHGame)gameChoice.getValue();
-            Weapon w = (Weapon)weaponChoice.getValue();
+            MHGame g = gameChoice.getValue();
+            Weapon w = weaponChoice.getValue();
             if(w==Weapon.NONE)
                 w = null;
-            Activity a = (Activity)statusChoice.getValue();
+            Activity a = statusChoice.getValue();
             int s = partyBtn4.isSelected() ? 4 : partyBtn3.isSelected() ? 3 : partyBtn2.isSelected() ? 2 : 1;
             RichPresence rp = new RichPresence(a.toString(), questField.getText(), OffsetDateTime.now(), null, 
                     g.getAssetId(), g.getName(), w==null ? null : w.getAssetId(), w==null ? null : w.getName(), 
@@ -165,29 +175,120 @@ public class FXMLController implements Initializable
         weaponChoice.setItems(FXCollections.observableArrayList(Weapon.values()));
         statusChoice.setItems(FXCollections.observableArrayList(Activity.values()));
         clientChoice.setItems(FXCollections.observableArrayList(DiscordBuild.values()));
+
+        gameChoice.setOnAction(event -> {
+            hallField.promptTextProperty().setValue(gameChoice.getValue().getPromptText());
+
+            // Clear the hall ID field
+            // We won't clear the password because someone
+            // might choose to have the same password between
+            // games.
+            hallField.clear();
+
+            // Reset weapon choice
+            weaponChoice.setValue(Weapon.NONE);
+
+            MHGame game = gameChoice.getValue();
+
+            List<Weapon> weapons = Stream.of(Weapon.values()).filter(weapon ->
+            {
+                // This weapon is present in all MH Games we support
+                if(weapon.getGames().length == 0)
+                    return true;
+
+                for(MHGame g : weapon.getGames())
+                {
+                    // This weapon is present in a MH Game we are using
+                    if(g == game)
+                        return true;
+                }
+
+                return false;
+            }).collect(Collectors.toList());
+
+            weaponChoice.setItems(FXCollections.observableArrayList(weapons));
+        });
         
-        discordLink.setOnAction(e -> hostServices.showDocument("https://discord.gg/MonsterHunter"));
-        twitterLink.setOnAction(e -> hostServices.showDocument("https://twitter.com/MHGatheringHall"));
-        //githubLink.setOnAction(e -> hostServices.showDocument("https://github.com/jagrosh/MHGHApp"));
-        websiteLink.setOnAction(e -> hostServices.showDocument("https://mhgh.info"));
+        discordLink.setOnAction(e -> hostServices.showDocument(DISCORD));
+        twitterLink.setOnAction(e -> hostServices.showDocument(TWITTER));
+        githubLink.setOnAction(e -> hostServices.showDocument(GITHUB));
+        websiteLink.setOnAction(e -> hostServices.showDocument(WEBSITE));
         //steamLink.setOnAction(e -> hostServices.showDocument("https://discord.gg/monsterhunter"));
         
         tg.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue==null)
                 oldValue.setSelected(true);
         });
+
+        if(gameChoice.getValue() != null)
+        {
+            hallField.promptTextProperty().setValue(gameChoice.getValue().getPromptText());
+        }
         
         hallField.textProperty().addListener((observable, oldValue, newValue) -> 
         {
-            if(newValue.length()>oldValue.length() && (newValue.matches("\\d{2}") || newValue.matches("\\d{2}-\\d{4}") || newValue.matches("\\d{2}-\\d{4}-\\d{4}")))
-                hallField.setText(newValue+"-");
-            else if(newValue.length()>17)
-                hallField.setText(newValue.substring(0,17));
+            if(gameChoice.getValue() == null)
+            {
+                // Do not allow modification of preexisting
+                hallField.setText(oldValue);
+            }
+
+            if(newValue.length() > oldValue.length())
+            {
+                // If there is no game selected or if we are playing MHW
+                if(gameChoice.getValue() == MHGame.MHW)
+                {
+                    // Cut the new value back down capping it at 12 characters
+                    if(newValue.length() > 12)
+                        hallField.setText(oldValue);
+
+                    // Prevent whitespace from being added
+                    if(newValue.endsWith(" "))
+                        hallField.setText(oldValue);
+                }
+                else
+                {
+                    if(newValue.length() > 17)
+                    {
+                        hallField.setText(oldValue);
+                    }
+
+                    char lastChar = newValue.charAt(newValue.length()-1);
+
+                    // Prevent whitespace and non-numeric characters being added
+                    if(!Character.isDigit(lastChar) && lastChar != '-')
+                    {
+                        hallField.setText(oldValue);
+                        return;
+                    }
+
+                    if(newValue.matches("\\d{2}") || newValue.matches("\\d{2}-\\d{4}") ||
+                       newValue.matches("\\d{2}-\\d{4}-\\d{4}"))
+                    {
+                        hallField.setText(newValue+"-");
+                    }
+                }
+            }
+            // Well, after some very frustrating debugging I discovered that JavaFX apparently
+            // doesn't allow developers to make changes or alterations to textboxes when deleting
+            // characters or content outside of a one character difference BELOW the start and end.
+            // If you try to do this, it will give you the error:
+            //
+            // java.lang.IllegalArgumentException: The start must be <= the end
+            //
+            // Which might I just say, is really really really poor design, and shame on whoever
+            // thought this was a good idea.
+
+            /*// Deleting a '-' character
+            else if(oldValue.length() > newValue.length() && oldValue.endsWith("-"))
+            {
+                hallField.setText(newValue.substring(0, newValue.length()-1));
+            }*/
         });
         
         passField.textProperty().addListener((observable, oldValue, newValue) ->
         {
-            if(newValue.length()>4)
+            if(newValue.length() > 4)
                 passField.setText(newValue.substring(0,4));
         });
         
@@ -236,16 +337,16 @@ public class FXMLController implements Initializable
         try
         {
             Properties props = new Properties();
-            MHGame g = (MHGame)gameChoice.getValue();
+            MHGame g = gameChoice.getValue();
             if(g==null)
                 g = MHGame.values()[0];
-            Weapon w = (Weapon)weaponChoice.getValue();
+            Weapon w = weaponChoice.getValue();
             if(w==null)
                 w = Weapon.NONE;
-            Activity a = (Activity)statusChoice.getValue();
+            Activity a = statusChoice.getValue();
             if(a==null)
                 a = Activity.values()[0];
-            DiscordBuild c = (DiscordBuild)clientChoice.getValue();
+            DiscordBuild c = clientChoice.getValue();
             if(c==null)
                 c = DiscordBuild.ANY;
             props.setProperty("game", g.name());
@@ -328,14 +429,14 @@ public class FXMLController implements Initializable
                 LOGGER.error("CSS is not in proper format or invalid.");
             }
             
-        } else Platform.runLater(() -> loadCss());
+        } else Platform.runLater(this::loadCss);
     }
     
     private void connect()
     {
         try
         {
-            DiscordBuild c = (DiscordBuild)clientChoice.getValue();
+            DiscordBuild c = clientChoice.getValue();
             if(c==null)
                 c = DiscordBuild.ANY;
             client.connect(c, DiscordBuild.ANY);
