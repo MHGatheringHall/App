@@ -188,6 +188,7 @@
                         <Hyperlink fx:id="twitterLink" text="Twitter"/>
                         <Hyperlink fx:id="websiteLink" text="Website"/>
                         <Hyperlink fx:id="steamLink" text="Steam"/>
+                        <Hyperlink fx:id="twitchLink" text="Twitch"/>
                       </children>
                     </HBox>
                     <Label contentDisplay="CENTER" text="Version 0.05" textAlignment="CENTER" wrapText="true"

@@ -73,6 +73,8 @@ public class FXMLController implements Initializable
     private static final String TWITTER = "https://twitter.com/MHGatheringHall";
     private static final String GITHUB = "https://github.com/MHGatheringHall/App";
     private static final String WEBSITE = "https://mhgh.info";
+    private static final String STEAM = "https://steamcommunity.com/groups/MonHunGatheringHall";
+    private static final String TWITCH = "https://www.twitch.tv/mhgatheringhall";
 
     private IPCClient client;
     private HostServices hostServices;
@@ -99,6 +101,7 @@ public class FXMLController implements Initializable
     @FXML private Hyperlink githubLink;
     @FXML private Hyperlink websiteLink;
     @FXML private Hyperlink steamLink;
+    @FXML private Hyperlink twitchLink;
     
     @FXML private TextArea console;
     
@@ -209,11 +212,12 @@ public class FXMLController implements Initializable
             weaponChoice.setItems(FXCollections.observableArrayList(weapons));
         });
         
-        discordLink.setOnAction(e -> hostServices.showDocument(DISCORD));
-        twitterLink.setOnAction(e -> hostServices.showDocument(TWITTER));
-        githubLink.setOnAction(e -> hostServices.showDocument(GITHUB));
-        websiteLink.setOnAction(e -> hostServices.showDocument(WEBSITE));
-        //steamLink.setOnAction(e -> hostServices.showDocument("https://discord.gg/monsterhunter"));
+        discordLink.setOnAction(e -> visit(discordLink, DISCORD));
+        twitterLink.setOnAction(e -> visit(twitchLink, TWITTER));
+        githubLink.setOnAction(e -> visit(githubLink, GITHUB));
+        websiteLink.setOnAction(e -> visit(websiteLink, WEBSITE));
+        steamLink.setOnAction(e -> visit(steamLink, STEAM));
+        twitchLink.setOnAction(e -> visit(twitchLink, TWITCH));
         
         tg.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue==null)
@@ -447,6 +451,14 @@ public class FXMLController implements Initializable
         {
             setStatus("No Discord client found!");
         }
+    }
+
+    private void visit(Hyperlink link, String url) {
+        hostServices.showDocument(url);
+        // Set it so that we haven't visited the link yet
+        // By default, FXML permanently highlights Hyperlinks
+        // after they are clicked once.
+        link.setVisited(false);
     }
     
     private class Listener implements IPCListener

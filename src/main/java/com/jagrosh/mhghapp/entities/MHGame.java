@@ -26,7 +26,7 @@ public enum MHGame
     MH4U("Monster Hunter 4 Ultimate", "mh4u"),
     MHGEN("Monster Hunter Generations", "mhgen"),
     MHXX("Monster Hunter XX", "mhxx"),
-    MHW("Monster Hunter World", "mhw", "XXXXXXXXXX", Pattern.compile("[A-Za-z1-9]{9,12}"))
+    MHW("Monster Hunter World", "mhw", "XXXXXXXXXXX", Pattern.compile("[A-Za-z1-9]{9,12}"))
     ;
     
     private final String name, asset, promptText;
