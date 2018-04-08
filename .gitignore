@@ -1,3 +1,11 @@
+### Maven Files ###
 /target/
 /builds/
 /bundling/
+
+### Intellij Project Files
+/.idea/
+*.iml
+
+### Testing Outputs ###
+settings.properties

@@ -36,16 +36,18 @@ public enum Weapon
     LIGHTBOWGUN("Light Bowgun",   "lbg"),
     HEAVYBOWGUN("Heavy Bowgun",   "hbg"),
     BOW("Bow",                    "bow"),
-    PROWLER("Prowler",            "prowler")
+    PROWLER("Prowler",            "prowler", MHGame.MHGEN, MHGame.MHXX)
     ;
     
     
-    private final String asset,name;
+    private final String asset, name;
+    private final MHGame[] games;
     
-    private Weapon(String name, String asset)
+    private Weapon(String name, String asset, MHGame... games)
     {
         this.name = name;
         this.asset = asset;
+        this.games = games; // Empty games array means all games support this weapon
     }
     
     public String getName()
@@ -56,6 +58,11 @@ public enum Weapon
     public String getAssetId()
     {
         return "weapon-"+asset;
+    }
+
+    public MHGame[] getGames()
+    {
+        return games;
     }
 
     @Override
